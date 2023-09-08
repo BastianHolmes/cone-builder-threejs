@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import apis from "../apis";
+import Input from "./Input";
 
-const Form = () => {
+const Form = ({ setGeometryData }) => {
   const [height, setHeight] = useState("");
   const [radius, setRadius] = useState("");
   const [segments, setSegments] = useState("");
+
+  const handleSmooth = () => {
+    setHeight(12);
+    setRadius(4);
+    setSegments(1000);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,55 +22,34 @@ const Form = () => {
         areas: segments,
         radius,
       });
-      console.log(response.data.data.base);
+      console.log(response.data.data.vertices);
+      setGeometryData(() => [
+        response.data.data.vertices,
+        response.data.data.indices,
+      ]);
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <form>
-      <div className="form-group">
-        <label htmlFor="height">Height</label>
-        <input
-          min="1"
-          id="height"
-          type="number"
-          value={height}
-          onChange={(e) => setHeight(e.target.value)}
-          placeholder="type height"
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="radius">Radius</label>
-        <input
-          min="1"
-          id="radius"
-          type="number"
-          value={radius}
-          onChange={(e) => setRadius(e.target.value)}
-          placeholder="type radius"
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="segments">Segments</label>
-        <input
-          min="3"
-          id="segments"
-          type="number"
-          value={segments}
-          onChange={(e) => setSegments(e.target.value)}
-          placeholder="type segments"
-        />
-      </div>
-      <button
-        type="submit"
-        className="btn-submit"
-        onClick={(e) => handleSubmit(e)}
-      >
-        Submit
+    <div className="form-container">
+      <form className="form">
+        <Input value={height} setValue={setHeight} Name="Height" />
+        <Input value={radius} setValue={setRadius} Name="Radius" />
+        <Input value={segments} setValue={setSegments} Name="Segments" />
+        <button
+          type="submit"
+          className="btn-submit"
+          onClick={(e) => handleSubmit(e)}
+        >
+          Draw
+        </button>
+      </form>
+      <button className="smooth-btn" onClick={() => handleSmooth()}>
+        Go Smooth
       </button>
-    </form>
+    </div>
   );
 };
 
