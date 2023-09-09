@@ -46,16 +46,6 @@ function Cone({ geometryData }) {
         geometry={geometryRef.current}
         material={materialRef.current}
         ref={meshRef}
-        side={THREE.FrontSide}
-      />
-      <spotLight
-        position={[0, 10, 0]}
-        angle={Math.PI / 4}
-        penumbra={0.8}
-        intensity={1}
-        castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
       />
     </>
   );
