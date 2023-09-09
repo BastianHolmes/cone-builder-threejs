@@ -26,14 +26,11 @@ function Cone({ geometryData }) {
   }, [vertices, indices]);
 
   useMemo(() => {
-    const material = new THREE.MeshPhysicalMaterial({
+    const material = new THREE.MeshBasicMaterial({
       color: "#E55137",
-      roughness: 0.8,
-      metalness: 0.4,
-      clearcoat: 0.5,
-      clearcoatRoughness: 0.8,
+      wireframe: true,
       side: THREE.DoubleSide,
-      receiveShadow: true,
+      wireframeLinewidth: 2,
     });
     materialRef.current = material;
   }, []);
