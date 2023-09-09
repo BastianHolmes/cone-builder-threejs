@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import apis from "../apis";
 import Input from "./Input";
 
-const Form = ({ setGeometryData }) => {
-  const [height, setHeight] = useState("");
-  const [radius, setRadius] = useState("");
-  const [segments, setSegments] = useState("");
+const Form = ({ setGeometryData, setIsLoading }) => {
+  const [height, setHeight] = useState("6");
+  const [radius, setRadius] = useState("4");
+  const [segments, setSegments] = useState("6");
 
   const handleSmooth = () => {
     setHeight(12);
@@ -15,14 +15,13 @@ const Form = ({ setGeometryData }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const response = await apis.post("/", {
         height,
         areas: segments,
         radius,
       });
-      console.log(response.data.data.vertices);
       setGeometryData(() => [
         response.data.data.vertices,
         response.data.data.indices,
@@ -30,6 +29,7 @@ const Form = ({ setGeometryData }) => {
     } catch (err) {
       console.log(err);
     }
+    setIsLoading(false);
   };
 
   return (
